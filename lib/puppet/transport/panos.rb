@@ -1,4 +1,5 @@
 require 'net/http'
+require 'uri'
 require 'openssl'
 require 'rexml/document'
 require 'securerandom'
@@ -227,25 +228,46 @@ module Puppet::Transport
 
       def http
         @http ||= begin
-                    Puppet.debug('Connecting to https://%{host}:%{port}' % { host: @host, port: @port })
-                    Net::HTTP.start(@host, @port,
-                                    use_ssl: true,
-                                    verify_mode: handle_verify_mode(@ssl_verify),
-                                    ca_file: @ca_file,
-                                    ssl_version: @ssl_version,
-                                    ciphers: @ciphers ? @ciphers.join(':') : @ciphers,
-                                    verify_callback: ->(preverify_ok, cert_store) do
-                                                       verify_callback(preverify_ok, cert_store)
-                                                     end)
+                    # Puppet.debug('Connecting to https://%{host}:%{port}' % { host: @host, port: @port })
+                    # Net::HTTP.start(@host, 80,
+                    #                 use_ssl: false,
+                    #                 verify_mode: false,
+                    #                 ca_file: @ca_file,
+                    #                 ssl_version: @ssl_version,
+                    #                 ciphers: @ciphers ? @ciphers.join(':') : @ciphers,
+                    #                 verify_callback: ->(preverify_ok, cert_store) do
+                    #                                    verify_callback(preverify_ok, cert_store)
+                    #                                  end)
+
+                  Net::HTTP.new('born-typography.delivery.puppetlabs.net', 80)
                   end
       end
 
       def fetch_apikey(user, password)
-        uri = URI::HTTP.build(path: '/api/')
+        # uri = URI::HTTP.build(path: '/api/')
+        # params = { type: 'keygen', user: user, password: password }
+        # uri.query = URI.encode_www_form(params)
+        #
+        # puts "HELLO"
+        # puts uri
+        #
+        # puts "HTTP"
+        # puts http
+
+        # res = http.get(uri)
+        #
+        # request = Net::HTTP::Get.new(uri.request_uri)
+        # response = http.request(request)
+
+# deceptive-gorge.delivery.puppetlabs.net
+
+        uri = URI('http://deceptive-gorge.delivery.puppetlabs.net/api/')
         params = { type: 'keygen', user: user, password: password }
         uri.query = URI.encode_www_form(params)
+        res = Net::HTTP.get_response(uri)
+        puts "RESPONSE"
+        puts res
 
-        res = http.get(uri)
         unless res.is_a?(Net::HTTPSuccess)
           raise "Error: #{res}: #{res.message}"
         end
@@ -262,7 +284,8 @@ module Puppet::Transport
         params = { type: type, key: apikey }
         params.merge!(options)
 
-        uri = URI::HTTP.build(path: '/api/')
+        # uri = URI::HTTP.build(path: '/api/')
+        uri = URI('http://deceptive-gorge.delivery.puppetlabs.net/api/')
         uri.query = URI.encode_www_form(params)
 
         res = http.get(uri)
@@ -278,7 +301,8 @@ module Puppet::Transport
         params = { type: type, key: apikey }
         params.merge!(options)
 
-        uri = URI::HTTP.build(path: '/api/')
+        # uri = URI::HTTP.build(path: '/api/')
+        uri = URI('http://deceptive-gorge.delivery.puppetlabs.net/api/')
         uri.query = URI.encode_www_form(params)
 
         raise Puppet::ResourceError, "File: `#{file}` does not exist" unless File.exist?(file)

@@ -95,7 +95,7 @@ DESC
       default:    false,
     },
     route_type: {
-      type:   'Optional[Enum["unicast", "multicast", "both", "no-install"]]',
+      type:   'Optional[Enum["unicast", "multicast", "both", "no-install", ""]]',
       desc:   <<DESC,
 Specify the route table into which the firewall installs the static route:
 

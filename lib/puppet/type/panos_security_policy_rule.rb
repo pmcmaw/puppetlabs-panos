@@ -225,7 +225,7 @@ DESC
       xpath: 'log-setting/text()',
     },
     profile_type:  {
-      type:  'Optional[Enum["profiles", "group", "none"]]',
+      type:  'Optional[Enum["profiles", "group", "none", ""]]',
       desc:  'Specify which type of profile will be used.',
       xpath: 'local-name(profile-setting/*[1])',
     },
@@ -275,7 +275,7 @@ DESC
       xpath: 'schedule/text()',
     },
     qos_type: {
-      type:  'Optional[Enum["follow-c2s-flow", "ip-precedence", "ip-dscp", "none"]]',
+      type:  'Optional[Enum["follow-c2s-flow", "ip-precedence", "ip-dscp", "none", ""]]',
       desc:  'Specify which QoS profile should be used to change the Quality of Service setting on packets matching the rule.',
       xpath: 'local-name(qos/marking/*[1])',
     },

@@ -82,7 +82,7 @@ DESC
       default:     ['any'],
     },
     source_translation_type: {
-      type:  'Optional[Enum["dynamic-ip", "static-ip", "dynamic-ip-and-port", "none"]]',
+      type:  'Optional[Enum["dynamic-ip", "static-ip", "dynamic-ip-and-port", "none", ""]]',
       desc:  <<DESC,
 The size of the address range is limited by the type of address pool:
 
@@ -130,7 +130,7 @@ DESC
       xpath: 'source-translation/static-ip/translated-address/text()',
     },
     fallback_address_type: {
-      type:  'Optional[Enum["translated-address", "interface-address"]]',
+      type:  'Optional[Enum["translated-address", "interface-address", ""]]',
       desc:  'Whether the NAT policy used translated-address or interface-address as a fallback',
       xpath: 'local-name(source-translation/*/fallback/*[1])',
     },

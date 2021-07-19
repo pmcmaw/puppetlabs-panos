@@ -48,7 +48,6 @@ describe 'basic palo alto config' do
       context 'when running an idempotency check' do
         it 'applies a catalog without changes' do
           expect(stdout_str).not_to match %r{Error:}
-          expect(stdout_str).not_to match success_regex
           puts stdout_str if debug_output?
           # See https://tickets.puppetlabs.com/browse/PUP-9067 "`puppet device` should respect --detailed-exitcodes"
           # expect(status.exitstatus).to eq 0
